@@ -16,6 +16,8 @@ concurrency:
 jobs:
   build-docs:
     runs-on: ubuntu-latest
+    outputs:
+      pages-enabled: ${{ steps.setup-pages.outcome == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,13 +56,23 @@ jobs:
         working-directory: bank
         run: $HOME/.dotnet/tools/docfx build docfx.json
           
+      - name: Upload documentation artifacts (always)
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: './bank/_site'
+          retention-days: 30
+          
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        continue-on-error: true  # No fallar si Pages no está configurado
+        id: setup-pages
         
-      - name: Upload artifact
+      - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: './bank/_site'
+        if: steps.setup-pages.outcome == 'success'
           
   deploy:
     environment:
@@ -68,9 +80,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build-docs
-    if: github.repository_owner == 'UPT-FAING-EPIS' && github.ref == 'refs/heads/main'  # Solo en el repo principal y main branch
+    if: github.repository_owner == 'UPT-FAING-EPIS' && github.ref == 'refs/heads/main' && needs.build-docs.outputs.pages-enabled == 'true'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        continue-on-error: true  # No fallar si Pages no está configurado
