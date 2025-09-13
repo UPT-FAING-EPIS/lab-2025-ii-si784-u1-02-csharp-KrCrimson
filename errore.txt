@@ -1,8 +1,7 @@
 test-and-package
 
-Run cd Bank
-  cd Bank
-  dotnet restore Bank.sln
+Run dotnet restore Bank/Bank.sln
+  dotnet restore Bank/Bank.sln
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_VERSION: 8.x
@@ -12,32 +11,30 @@ Run cd Bank
     JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
     DOTNET_ROOT: /usr/share/dotnet
 MSBUILD : error MSB1009: Project file does not exist.
-Switch: Bank.sln
+Switch: Bank/Bank.sln
 Error: Process completed with exit code 1.
 
 build-docs
 
-Run cd Bank
-  cd Bank
-  dotnet restore Bank.sln
+Run dotnet restore Bank/Bank.sln
+  dotnet restore Bank/Bank.sln
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_ROOT: /usr/share/dotnet
 MSBUILD : error MSB1009: Project file does not exist.
-Switch: Bank.sln
+Switch: Bank/Bank.sln
 Error: Process completed with exit code 1.
 
 security
 
-Run cd Bank
-  cd Bank
-  dotnet restore Bank.sln
+Run dotnet restore Bank/Bank.sln
+  dotnet restore Bank/Bank.sln
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_VERSION: 8.x
     DOTNET_ROOT: /usr/share/dotnet
 MSBUILD : error MSB1009: Project file does not exist.
-Switch: Bank.sln
+Switch: Bank/Bank.sln
 Error: Process completed with exit code 1.
 
 Run github/codeql-action/upload-sarif@v3

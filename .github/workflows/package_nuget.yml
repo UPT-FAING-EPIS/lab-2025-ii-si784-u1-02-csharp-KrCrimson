@@ -38,10 +38,10 @@ jobs:
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
         
       - name: Restore dependencies
-        run: dotnet restore Bank/Bank.sln
-          
+        run: dotnet restore bank/Bank.sln
+        
       - name: Begin SonarCloud scan
-        working-directory: Bank
+        working-directory: bank
         run: |
           dotnet-sonarscanner begin \
             /k:"${{ env.SONAR_PROJECT }}" \
@@ -54,36 +54,36 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
       - name: Build solution
-        run: dotnet build Bank/Bank.sln --no-restore
+        run: dotnet build bank/Bank.sln --no-restore
           
       - name: Run tests with coverage
-        run: dotnet test Bank/Bank.sln --no-build --collect:"XPlat Code Coverage;Format=opencover"
+        run: dotnet test bank/Bank.sln --no-build --collect:"XPlat Code Coverage;Format=opencover"
           
       - name: Generate coverage report
-        working-directory: Bank
+        working-directory: bank
         run: ReportGenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
           
       - name: End SonarCloud scan
-        working-directory: Bank
+        working-directory: bank
         run: dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
       - name: Pack NuGet package
-        run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj --no-build --configuration Release --output ./Bank/nupkg
+        run: dotnet pack bank/Bank.Domain/Bank.Domain.csproj --no-build --configuration Release --output ./bank/nupkg
           
       - name: Upload test coverage artifacts
         uses: actions/upload-artifact@v4
         with:
           name: test-coverage
-          path: Bank/TestResults/Coverage/
+          path: bank/TestResults/Coverage/
           retention-days: 30
           
       - name: Upload NuGet package
         uses: actions/upload-artifact@v4
         with:
           name: nuget-package
-          path: Bank/nupkg/*.nupkg
+          path: bank/nupkg/*.nupkg
           retention-days: 90
           
       - name: Publish to GitHub Packages

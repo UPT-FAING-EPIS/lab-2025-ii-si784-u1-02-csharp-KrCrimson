@@ -32,24 +32,24 @@ jobs:
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
         
       - name: Restore dependencies
-        run: dotnet restore Bank/Bank.sln
+        run: dotnet restore bank/Bank.sln
           
       - name: Build solution
-        run: dotnet build Bank/Bank.sln --no-restore
+        run: dotnet build bank/Bank.sln --no-restore
           
       - name: Run tests with coverage
-        run: dotnet test Bank/Bank.sln --collect:"XPlat Code Coverage" --no-build
+        run: dotnet test bank/Bank.sln --collect:"XPlat Code Coverage" --no-build
           
       - name: Generate coverage report
-        working-directory: Bank
+        working-directory: bank
         run: ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
           
       - name: Generate documentation metadata
-        working-directory: Bank
+        working-directory: bank
         run: docfx metadata docfx.json
           
       - name: Build documentation
-        working-directory: Bank
+        working-directory: bank
         run: docfx build docfx.json
           
       - name: Setup Pages
@@ -58,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './Bank/_site'
+          path: './bank/_site'
           
   deploy:
     environment:

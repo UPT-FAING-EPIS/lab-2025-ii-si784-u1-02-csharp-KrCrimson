@@ -45,20 +45,20 @@ jobs:
           sed -i "s/<Version>.*<\/Version>/<Version>${{ steps.version.outputs.version }}<\/Version>/" Bank.Domain/Bank.Domain.csproj
           
       - name: Restore dependencies
-        run: dotnet restore Bank/Bank.sln
+        run: dotnet restore bank/Bank.sln
           
       - name: Build solution
-        run: dotnet build Bank/Bank.sln --configuration Release --no-restore
+        run: dotnet build bank/Bank.sln --configuration Release --no-restore
           
       - name: Run tests
-        run: dotnet test Bank/Bank.sln --configuration Release --no-build --collect:"XPlat Code Coverage"
+        run: dotnet test bank/Bank.sln --configuration Release --no-build --collect:"XPlat Code Coverage"
           
       - name: Pack NuGet package
-        run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj --configuration Release --no-build --output ./Bank/release-packages
+        run: dotnet pack bank/Bank.Domain/Bank.Domain.csproj --configuration Release --no-build --output ./bank/release-packages
           
       - name: Generate changelog
         id: changelog
-        working-directory: Bank
+        working-directory: bank
         run: |
           # Obtener commits desde el último tag
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
@@ -104,16 +104,15 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Bank/release-packages/Bank.Domain.${{ steps.version.outputs.version }}.nupkg
+          asset_path: ./bank/release-packages/Bank.Domain.${{ steps.version.outputs.version }}.nupkg
           asset_name: Bank.Domain.${{ steps.version.outputs.version }}.nupkg
           asset_content_type: application/zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Publish to GitHub Packages
-        run: |
-          cd Bank
-          dotnet nuget push ./release-packages/*.nupkg --source https://nuget.pkg.github.com/UPT-FAING-EPIS/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
+        working-directory: bank
+        run: dotnet nuget push ./release-packages/*.nupkg --source https://nuget.pkg.github.com/UPT-FAING-EPIS/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
@@ -122,6 +121,6 @@ jobs:
         with:
           name: release-v${{ steps.version.outputs.version }}
           path: |
-            Bank/release-packages/
-            Bank/*/*/*/coverage.cobertura.xml
+            bank/release-packages/
+            bank/*/*/*/coverage.cobertura.xml
           retention-days: 365
