@@ -65,6 +65,8 @@ jobs:
           
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          enablement: true  # Habilitar Pages automáticamente si no está configurado
         continue-on-error: true  # No fallar si Pages no está configurado
         id: setup-pages
         
