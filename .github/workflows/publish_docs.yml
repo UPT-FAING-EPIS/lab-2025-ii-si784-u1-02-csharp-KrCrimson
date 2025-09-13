@@ -23,7 +23,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '8.x'
           
       - name: Install DocFX
         run: dotnet tool install -g docfx
@@ -33,32 +33,32 @@ jobs:
         
       - name: Restore dependencies
         run: |
-          cd bank
+          cd Bank
           dotnet restore
           
       - name: Build solution
         run: |
-          cd bank
+          cd Bank
           dotnet build --no-restore
           
       - name: Run tests with coverage
         run: |
-          cd bank
+          cd Bank
           dotnet test --collect:"XPlat Code Coverage" --no-build
           
       - name: Generate coverage report
         run: |
-          cd bank
+          cd Bank
           ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
           
       - name: Generate documentation metadata
         run: |
-          cd bank
+          cd Bank
           docfx metadata docfx.json
           
       - name: Build documentation
         run: |
-          cd bank
+          cd Bank
           docfx build docfx.json
           
       - name: Setup Pages
@@ -67,7 +67,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './bank/_site'
+          path: './Bank/_site'
           
   deploy:
     environment:

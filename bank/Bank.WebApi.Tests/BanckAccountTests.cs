@@ -1,4 +1,4 @@
-using Bank.WebApi.Models;
+using Bank.Domain.Models;
 using NUnit.Framework;
 
 namespace Bank.WebApi.Tests

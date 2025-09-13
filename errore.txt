@@ -1,0 +1,138 @@
+run-autograding-tests
+
+Run classroom-resources/autograding-grading-reporter@v1
+🔄 Processing: t1
+❌ t1
+Test code:
+export HOME='/home/runner' && cd Bank && dotnet test
+
+Total points for t1: 0.00/3
+
+🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+
+🔄 Processing: t2
+❌ t2
+Test code:
+cat .github/workflows/snkk.yml | grep snyk-to-html
+
+Total points for t2: 0.00/3
+
+🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+
+🔄 Processing: t3
+✅ t3
+Test code:
+cat .github/workflows/publish_docs.yml | grep docfx
+
+Total points for t3: 3.00/3
+
+🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+
+🔄 Processing: t4
+❌ t4
+Test code:
+cat disenio.md | grep mermaid
+
+Total points for t4: 0.00/2
+
+🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+
+🔄 Processing: t5
+✅ t5
+Test code:
+cat .github/workflows/package_nuget.yml | grep nuget
+
+Total points for t5: 5.00/5
+
+🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
+
+🔄 Processing: t6
+✅ t6
+Test code:
+cat  .github/workflows/release_version.yml | grep release
+
+Total points for t6: 4.00/4
+
+Test runner summary
+┌────────────────────┬─────────────┬─────────────┐
+│ Test Runner Name   │ Test Score  │ Max Score   │
+├────────────────────┼─────────────┼─────────────┤
+│ t1                 │ 0           │ 3           │
+├────────────────────┼─────────────┼─────────────┤
+│ t2                 │ 0           │ 3           │
+├────────────────────┼─────────────┼─────────────┤
+│ t3                 │ 3           │ 3           │
+├────────────────────┼─────────────┼─────────────┤
+│ t4                 │ 0           │ 2           │
+├────────────────────┼─────────────┼─────────────┤
+│ t5                 │ 5           │ 5           │
+├────────────────────┼─────────────┼─────────────┤
+│ t6                 │ 4           │ 4           │
+├────────────────────┼─────────────┼─────────────┤
+│ Total:             │ 12          │ 20          │
+└────────────────────┴─────────────┴─────────────┘
+🏆 Grand total tests passed: 3/6
+
+Notice: Points 12/20
+Notice: {"totalPoints":12,"maxPoints":20}
+Error: Some tests failed.
+
+test-and-package
+
+Run cd bank
+  cd bank
+  dotnet restore
+  shell: /usr/bin/bash -e {0}
+  env:
+    DOTNET_VERSION: 8.x
+    SONAR_ORG: upt-faing-epis
+    SONAR_PROJECT: UPT-FAING-EPIS_lab-2025-ii-si784-u1-02-csharp-KrCrimson
+    JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
+    JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
+    DOTNET_ROOT: /usr/share/dotnet
+  Determining projects to restore...
+Error: /usr/share/dotnet/sdk/8.0.414/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.TargetFrameworkInference.targets(166,5): error NETSDK1045: The current .NET SDK does not support targeting .NET 9.0.  Either target .NET 8.0 or lower, or use a version of the .NET SDK that supports .NET 9.0. Download the .NET SDK from https://aka.ms/dotnet/download [/home/runner/work/lab-2025-ii-si784-u1-02-csharp-KrCrimson/lab-2025-ii-si784-u1-02-csharp-KrCrimson/bank/Bank.WebApi.Tests/Bank.WebApi.Tests.csproj]
+Error: /usr/share/dotnet/sdk/8.0.414/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.TargetFrameworkInference.targets(166,5): error NETSDK1045: The current .NET SDK does not support targeting .NET 9.0.  Either target .NET 8.0 or lower, or use a version of the .NET SDK that supports .NET 9.0. Download the .NET SDK from https://aka.ms/dotnet/download [/home/runner/work/lab-2025-ii-si784-u1-02-csharp-KrCrimson/lab-2025-ii-si784-u1-02-csharp-KrCrimson/bank/Bank.WebApi/Bank.WebApi.csproj]
+Error: Process completed with exit code 1.
+
+build-docs
+
+Run cd bank
+  cd bank
+  ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+  shell: /usr/bin/bash -e {0}
+  env:
+    DOTNET_ROOT: /usr/share/dotnet
+/home/runner/work/_temp/4a166694-75a9-4737-9793-8df417797fe9.sh: line 2: ReportGenerator: command not found
+Error: Process completed with exit code 127.
+
+security
+
+Run github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: snyk.sarif
+    checkout_path: /home/runner/work/lab-2025-ii-si784-u1-02-csharp-KrCrimson/lab-2025-ii-si784-u1-02-csharp-KrCrimson
+    token: ***
+    matrix: null
+    wait-for-processing: true
+  env:
+    DOTNET_VERSION: 9.x
+    DOTNET_ROOT: /usr/share/dotnet
+Error: Path does not exist: snyk.sarif
+
+Build and Test
+
+Run dotnet restore
+  dotnet restore
+  shell: /usr/bin/bash -e {0}
+  env:
+    DOTNET_VERSION: 8.x
+    SONAR_ORG: krcrimson
+    SONAR_PROJECT: krcrimson_apibank
+    DOTNET_ROOT: /usr/share/dotnet
+Error: An error occurred trying to start process '/usr/bin/bash' with working directory '/home/runner/work/lab-2025-ii-si784-u1-02-csharp-KrCrimson/lab-2025-ii-si784-u1-02-csharp-KrCrimson/./Bank'. No such file or directory
+
+
+Publish Documentation / deploy (push) Skipped
+
+Sonar + NuGet CI / SonarCloud Analysis (Optional) (push) Skipped

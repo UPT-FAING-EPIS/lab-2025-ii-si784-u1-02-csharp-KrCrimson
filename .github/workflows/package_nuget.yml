@@ -39,12 +39,12 @@ jobs:
         
       - name: Restore dependencies
         run: |
-          cd bank
+          cd Bank
           dotnet restore
           
       - name: Begin SonarCloud scan
         run: |
-          cd bank
+          cd Bank
           dotnet-sonarscanner begin \
             /k:"${{ env.SONAR_PROJECT }}" \
             /o:"${{ env.SONAR_ORG }}" \
@@ -57,49 +57,49 @@ jobs:
           
       - name: Build solution
         run: |
-          cd bank
+          cd Bank
           dotnet build --no-restore
           
       - name: Run tests with coverage
         run: |
-          cd bank
+          cd Bank
           dotnet test --no-build --collect:"XPlat Code Coverage;Format=opencover"
           
       - name: Generate coverage report
         run: |
-          cd bank
+          cd Bank
           ReportGenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
           
       - name: End SonarCloud scan
         run: |
-          cd bank
+          cd Bank
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
       - name: Pack NuGet package
         run: |
-          cd bank
+          cd Bank
           dotnet pack Bank.Domain/Bank.Domain.csproj --no-build --configuration Release --output ./nupkg
           
       - name: Upload test coverage artifacts
         uses: actions/upload-artifact@v4
         with:
           name: test-coverage
-          path: bank/TestResults/Coverage/
+          path: Bank/TestResults/Coverage/
           retention-days: 30
           
       - name: Upload NuGet package
         uses: actions/upload-artifact@v4
         with:
           name: nuget-package
-          path: bank/nupkg/*.nupkg
+          path: Bank/nupkg/*.nupkg
           retention-days: 90
           
       - name: Publish to GitHub Packages
         if: github.ref == 'refs/heads/main'
         run: |
-          cd bank
+          cd Bank
           dotnet nuget push ./nupkg/*.nupkg --source https://nuget.pkg.github.com/UPT-FAING-EPIS/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

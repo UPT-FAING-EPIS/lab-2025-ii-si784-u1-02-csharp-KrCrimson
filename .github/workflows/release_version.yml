@@ -41,33 +41,33 @@ jobs:
           
       - name: Update version in project file
         run: |
-          cd bank
+          cd Bank
           sed -i "s/<Version>.*<\/Version>/<Version>${{ steps.version.outputs.version }}<\/Version>/" Bank.Domain/Bank.Domain.csproj
           
       - name: Restore dependencies
         run: |
-          cd bank
+          cd Bank
           dotnet restore
           
       - name: Build solution
         run: |
-          cd bank
+          cd Bank
           dotnet build --configuration Release --no-restore
           
       - name: Run tests
         run: |
-          cd bank
+          cd Bank
           dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
           
       - name: Pack NuGet package
         run: |
-          cd bank
+          cd Bank
           dotnet pack Bank.Domain/Bank.Domain.csproj --configuration Release --no-build --output ./release-packages
           
       - name: Generate changelog
         id: changelog
         run: |
-          cd bank
+          cd Bank
           # Obtener commits desde el último tag
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           if [ -z "$LAST_TAG" ]; then
@@ -112,7 +112,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bank/release-packages/Bank.Domain.${{ steps.version.outputs.version }}.nupkg
+          asset_path: ./Bank/release-packages/Bank.Domain.${{ steps.version.outputs.version }}.nupkg
           asset_name: Bank.Domain.${{ steps.version.outputs.version }}.nupkg
           asset_content_type: application/zip
         env:
@@ -120,7 +120,7 @@ jobs:
           
       - name: Publish to GitHub Packages
         run: |
-          cd bank
+          cd Bank
           dotnet nuget push ./release-packages/*.nupkg --source https://nuget.pkg.github.com/UPT-FAING-EPIS/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -130,6 +130,6 @@ jobs:
         with:
           name: release-v${{ steps.version.outputs.version }}
           path: |
-            bank/release-packages/
-            bank/*/*/*/coverage.cobertura.xml
+            Bank/release-packages/
+            Bank/*/*/*/coverage.cobertura.xml
           retention-days: 365
