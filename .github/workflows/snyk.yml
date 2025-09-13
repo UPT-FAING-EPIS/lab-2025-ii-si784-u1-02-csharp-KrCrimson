@@ -34,17 +34,17 @@ jobs:
       - name: Restore dependencies
         run: |
           cd Bank
-          dotnet restore
+          dotnet restore Bank.sln
           
       - name: Build solution
         run: |
           cd Bank
-          dotnet build --no-restore
+          dotnet build Bank.sln --no-restore
           
       - name: Snyk Code Test
         run: |
           cd Bank
-          snyk code test --json | snyk-to-html -o ../snyk-code-results.html
+          snyk code test --json | snyk-to-html -o snyk-code-results.html
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
@@ -52,7 +52,7 @@ jobs:
       - name: Snyk monitor
         run: |
           cd Bank
-          snyk code test --sarif-file-output=../snyk.sarif
+          snyk code test --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
@@ -61,11 +61,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: snyk-code-report
-          path: snyk-code-results.html
+          path: Bank/snyk-code-results.html
           retention-days: 30
           
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: snyk.sarif
+          sarif_file: Bank/snyk.sarif
         if: always()

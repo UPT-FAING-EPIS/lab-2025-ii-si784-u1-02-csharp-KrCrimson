@@ -34,12 +34,12 @@ jobs:
       - name: Restore dependencies
         run: |
           cd Bank
-          dotnet restore
+          dotnet restore Bank.sln
           
       - name: Build solution
         run: |
           cd Bank
-          dotnet build --no-restore
+          dotnet build Bank.sln --no-restore
           
       - name: Run tests with coverage
         run: |
