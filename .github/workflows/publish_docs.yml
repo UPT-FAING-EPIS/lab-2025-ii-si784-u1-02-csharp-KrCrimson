@@ -44,15 +44,15 @@ jobs:
           
       - name: Generate coverage report
         working-directory: bank
-        run: dotnet tool run reportgenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+        run: $HOME/.dotnet/tools/reportgenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
           
       - name: Generate documentation metadata
         working-directory: bank
-        run: dotnet tool run docfx metadata docfx.json
+        run: $HOME/.dotnet/tools/docfx metadata docfx.json
           
       - name: Build documentation
         working-directory: bank
-        run: dotnet tool run docfx build docfx.json
+        run: $HOME/.dotnet/tools/docfx build docfx.json
           
       - name: Setup Pages
         uses: actions/configure-pages@v4

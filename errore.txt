@@ -1,25 +1,25 @@
 test-and-package
 
-Run ReportGenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
-  ReportGenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
+Run dotnet tool run reportgenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
+  dotnet tool run reportgenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_VERSION: 8.x
     SONAR_ORG: upt-faing-epis
     SONAR_PROJECT: UPT-FAING-EPIS_lab-2025-ii-si784-u1-02-csharp-KrCrimson
     DOTNET_ROOT: /usr/share/dotnet
-/home/runner/work/_temp/4372b643-dbc7-4520-9f0a-968c3dfc5e54.sh: line 1: ReportGenerator: command not found
-Error: Process completed with exit code 127.
+Cannot find a tool in the manifest file that has a command named 'reportgenerator'.
+Error: Process completed with exit code 1.
 
 build-docs
 
-Run ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
-  ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+Run dotnet tool run reportgenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+  dotnet tool run reportgenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_ROOT: /usr/share/dotnet
-/home/runner/work/_temp/8ce4c208-f1c3-4b8c-8da8-f0474e7331dd.sh: line 1: ReportGenerator: command not found
-Error: Process completed with exit code 127.
+Cannot find a tool in the manifest file that has a command named 'reportgenerator'.
+Error: Process completed with exit code 1.
 
 
 Publish Documentation / deploy (push) Skipped
