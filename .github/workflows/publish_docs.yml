@@ -26,7 +26,9 @@ jobs:
           dotnet-version: '8.x'
           
       - name: Install DocFX
-        run: dotnet tool install -g docfx
+        run: |
+          dotnet tool install -g docfx
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
         
       - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -42,15 +44,15 @@ jobs:
           
       - name: Generate coverage report
         working-directory: bank
-        run: ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+        run: dotnet tool run reportgenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
           
       - name: Generate documentation metadata
         working-directory: bank
-        run: docfx metadata docfx.json
+        run: dotnet tool run docfx metadata docfx.json
           
       - name: Build documentation
         working-directory: bank
-        run: docfx build docfx.json
+        run: dotnet tool run docfx build docfx.json
           
       - name: Setup Pages
         uses: actions/configure-pages@v4

@@ -36,7 +36,9 @@ jobs:
       #   run: dotnet tool install -g dotnet-sonarscanner
         
       - name: Install ReportGenerator
-        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+        run: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
         
       - name: Restore dependencies
         run: dotnet restore bank/Bank.sln
@@ -63,7 +65,7 @@ jobs:
           
       - name: Generate coverage report
         working-directory: bank
-        run: ReportGenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
+        run: dotnet tool run reportgenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
           
       # SonarCloud End está temporalmente deshabilitado
       # - name: End SonarCloud scan
