@@ -2,7 +2,7 @@ test-and-package
 
 Run cd Bank
   cd Bank
-  dotnet restore
+  dotnet restore Bank.sln
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_VERSION: 8.x
@@ -11,36 +11,38 @@ Run cd Bank
     JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
     JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
     DOTNET_ROOT: /usr/share/dotnet
-MSBUILD : error MSB1003: Specify a project or solution file. The current working directory does not contain a project or solution file.
+MSBUILD : error MSB1009: Project file does not exist.
+Switch: Bank.sln
 Error: Process completed with exit code 1.
 
 build-docs
 
 Run cd Bank
   cd Bank
-  dotnet restore
+  dotnet restore Bank.sln
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_ROOT: /usr/share/dotnet
-MSBUILD : error MSB1003: Specify a project or solution file. The current working directory does not contain a project or solution file.
+MSBUILD : error MSB1009: Project file does not exist.
+Switch: Bank.sln
 Error: Process completed with exit code 1.
 
 security
 
-1s
 Run cd Bank
   cd Bank
-  dotnet restore
+  dotnet restore Bank.sln
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_VERSION: 8.x
     DOTNET_ROOT: /usr/share/dotnet
-MSBUILD : error MSB1003: Specify a project or solution file. The current working directory does not contain a project or solution file.
+MSBUILD : error MSB1009: Project file does not exist.
+Switch: Bank.sln
 Error: Process completed with exit code 1.
 
 Run github/codeql-action/upload-sarif@v3
   with:
-    sarif_file: snyk.sarif
+    sarif_file: Bank/snyk.sarif
     checkout_path: /home/runner/work/lab-2025-ii-si784-u1-02-csharp-KrCrimson/lab-2025-ii-si784-u1-02-csharp-KrCrimson
     token: ***
     matrix: null
@@ -48,6 +50,7 @@ Run github/codeql-action/upload-sarif@v3
   env:
     DOTNET_VERSION: 8.x
     DOTNET_ROOT: /usr/share/dotnet
-Error: Path does not exist: snyk.sarif
+Error: Path does not exist: Bank/snyk.sarif
+
 
 Publish Documentation / deploy (push) Skipped

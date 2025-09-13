@@ -38,13 +38,11 @@ jobs:
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
         
       - name: Restore dependencies
-        run: |
-          cd Bank
-          dotnet restore Bank.sln
+        run: dotnet restore Bank/Bank.sln
           
       - name: Begin SonarCloud scan
+        working-directory: Bank
         run: |
-          cd Bank
           dotnet-sonarscanner begin \
             /k:"${{ env.SONAR_PROJECT }}" \
             /o:"${{ env.SONAR_ORG }}" \
@@ -56,31 +54,23 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
       - name: Build solution
-        run: |
-          cd Bank
-          dotnet build Bank.sln --no-restore
+        run: dotnet build Bank/Bank.sln --no-restore
           
       - name: Run tests with coverage
-        run: |
-          cd Bank
-          dotnet test --no-build --collect:"XPlat Code Coverage;Format=opencover"
+        run: dotnet test Bank/Bank.sln --no-build --collect:"XPlat Code Coverage;Format=opencover"
           
       - name: Generate coverage report
-        run: |
-          cd Bank
-          ReportGenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
+        working-directory: Bank
+        run: ReportGenerator "-reports:./*/*/*/coverage.opencover.xml" "-targetdir:TestResults/Coverage" -reporttypes:Html
           
       - name: End SonarCloud scan
-        run: |
-          cd Bank
-          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        working-directory: Bank
+        run: dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
       - name: Pack NuGet package
-        run: |
-          cd Bank
-          dotnet pack Bank.Domain/Bank.Domain.csproj --no-build --configuration Release --output ./nupkg
+        run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj --no-build --configuration Release --output ./Bank/nupkg
           
       - name: Upload test coverage artifacts
         uses: actions/upload-artifact@v4

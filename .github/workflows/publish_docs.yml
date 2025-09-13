@@ -32,34 +32,25 @@ jobs:
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
         
       - name: Restore dependencies
-        run: |
-          cd Bank
-          dotnet restore Bank.sln
+        run: dotnet restore Bank/Bank.sln
           
       - name: Build solution
-        run: |
-          cd Bank
-          dotnet build Bank.sln --no-restore
+        run: dotnet build Bank/Bank.sln --no-restore
           
       - name: Run tests with coverage
-        run: |
-          cd Bank
-          dotnet test --collect:"XPlat Code Coverage" --no-build
+        run: dotnet test Bank/Bank.sln --collect:"XPlat Code Coverage" --no-build
           
       - name: Generate coverage report
-        run: |
-          cd Bank
-          ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+        working-directory: Bank
+        run: ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
           
       - name: Generate documentation metadata
-        run: |
-          cd Bank
-          docfx metadata docfx.json
+        working-directory: Bank
+        run: docfx metadata docfx.json
           
       - name: Build documentation
-        run: |
-          cd Bank
-          docfx build docfx.json
+        working-directory: Bank
+        run: docfx build docfx.json
           
       - name: Setup Pages
         uses: actions/configure-pages@v4

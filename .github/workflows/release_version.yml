@@ -45,29 +45,21 @@ jobs:
           sed -i "s/<Version>.*<\/Version>/<Version>${{ steps.version.outputs.version }}<\/Version>/" Bank.Domain/Bank.Domain.csproj
           
       - name: Restore dependencies
-        run: |
-          cd Bank
-          dotnet restore Bank.sln
+        run: dotnet restore Bank/Bank.sln
           
       - name: Build solution
-        run: |
-          cd Bank
-          dotnet build Bank.sln --configuration Release --no-restore
+        run: dotnet build Bank/Bank.sln --configuration Release --no-restore
           
       - name: Run tests
-        run: |
-          cd Bank
-          dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
+        run: dotnet test Bank/Bank.sln --configuration Release --no-build --collect:"XPlat Code Coverage"
           
       - name: Pack NuGet package
-        run: |
-          cd Bank
-          dotnet pack Bank.Domain/Bank.Domain.csproj --configuration Release --no-build --output ./release-packages
+        run: dotnet pack Bank/Bank.Domain/Bank.Domain.csproj --configuration Release --no-build --output ./Bank/release-packages
           
       - name: Generate changelog
         id: changelog
+        working-directory: Bank
         run: |
-          cd Bank
           # Obtener commits desde el último tag
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           if [ -z "$LAST_TAG" ]; then

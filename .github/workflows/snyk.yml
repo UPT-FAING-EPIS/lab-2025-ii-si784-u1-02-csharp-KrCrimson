@@ -32,27 +32,21 @@ jobs:
         run: npm install -g snyk-to-html
         
       - name: Restore dependencies
-        run: |
-          cd Bank
-          dotnet restore Bank.sln
+        run: dotnet restore Bank/Bank.sln
           
       - name: Build solution
-        run: |
-          cd Bank
-          dotnet build Bank.sln --no-restore
+        run: dotnet build Bank/Bank.sln --no-restore
           
       - name: Snyk Code Test
-        run: |
-          cd Bank
-          snyk code test --json | snyk-to-html -o snyk-code-results.html
+        working-directory: Bank
+        run: snyk code test --json | snyk-to-html -o snyk-code-results.html
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
           
       - name: Snyk monitor
-        run: |
-          cd Bank
-          snyk code test --sarif-file-output=snyk.sarif
+        working-directory: Bank
+        run: snyk code test --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
