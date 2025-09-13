@@ -58,7 +58,7 @@ jobs:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
       - name: Build solution
-        run: dotnet build bank/Bank.sln --no-restore
+        run: dotnet build bank/Bank.sln --no-restore --configuration Release
           
       - name: Run tests with coverage
         run: dotnet test bank/Bank.sln --no-build --collect:"XPlat Code Coverage;Format=opencover"
