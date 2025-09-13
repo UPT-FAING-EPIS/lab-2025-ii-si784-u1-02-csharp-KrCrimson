@@ -1,7 +1,13 @@
 test-and-package
 
-Run dotnet restore Bank/Bank.sln
-  dotnet restore Bank/Bank.sln
+Run dotnet-sonarscanner begin \
+  dotnet-sonarscanner begin \
+    /k:"UPT-FAING-EPIS_lab-2025-ii-si784-u1-02-csharp-KrCrimson" \
+    /o:"upt-faing-epis" \
+    /d:sonar.token="***" \
+    /d:sonar.host.url="https://sonarcloud.io" \
+    /d:sonar.cs.opencover.reportsPaths="*/*/*/coverage.opencover.xml" \
+    /d:sonar.qualitygate.wait=true
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_VERSION: 8.x
@@ -10,36 +16,37 @@ Run dotnet restore Bank/Bank.sln
     JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
     JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.16-8/x64
     DOTNET_ROOT: /usr/share/dotnet
-MSBUILD : error MSB1009: Project file does not exist.
-Switch: Bank/Bank.sln
+    SONAR_TOKEN: ***
+SonarScanner for MSBuild 10.3
+Using the .NET Core version of the Scanner for MSBuild
+Pre-processing started.
+Preparing working directories...
+22:42:36.181  Updating build integration targets...
+22:42:37.37  Using SonarCloud.
+22:42:37.704  The JRE provisioning is a time consuming operation.
+JRE provisioned: OpenJDK17U-jre_x64_linux_hotspot_17.0.11_9.tar.gz.
+If you already have a compatible java version installed, please add either the parameter "/d:sonar.scanner.skipJreProvisioning=true" or "/d:sonar.scanner.javaExePath=<PATH>".
+22:42:39.834  Fetching analysis configuration settings...
+22:42:40.764  Downloading from https://sonarcloud.io/api/qualityprofiles/search?defaults=true&organization=upt-faing-epis failed. Http status code is NotFound.
+22:42:40.764  Cannot download quality profile. Check scanner arguments and the reported URL for more information.
+22:42:40.768  Pre-processing failed. Exit code: 1
 Error: Process completed with exit code 1.
 
 build-docs
 
-Run dotnet restore Bank/Bank.sln
-  dotnet restore Bank/Bank.sln
+Run ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+  ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
   shell: /usr/bin/bash -e {0}
   env:
     DOTNET_ROOT: /usr/share/dotnet
-MSBUILD : error MSB1009: Project file does not exist.
-Switch: Bank/Bank.sln
-Error: Process completed with exit code 1.
+/home/runner/work/_temp/c546e497-ed4f-4aa1-9c9e-979abb23db9d.sh: line 1: ReportGenerator: command not found
+Error: Process completed with exit code 127.
 
 security
 
-Run dotnet restore Bank/Bank.sln
-  dotnet restore Bank/Bank.sln
-  shell: /usr/bin/bash -e {0}
-  env:
-    DOTNET_VERSION: 8.x
-    DOTNET_ROOT: /usr/share/dotnet
-MSBUILD : error MSB1009: Project file does not exist.
-Switch: Bank/Bank.sln
-Error: Process completed with exit code 1.
-
 Run github/codeql-action/upload-sarif@v3
   with:
-    sarif_file: Bank/snyk.sarif
+    sarif_file: bank/snyk.sarif
     checkout_path: /home/runner/work/lab-2025-ii-si784-u1-02-csharp-KrCrimson/lab-2025-ii-si784-u1-02-csharp-KrCrimson
     token: ***
     matrix: null
@@ -47,7 +54,7 @@ Run github/codeql-action/upload-sarif@v3
   env:
     DOTNET_VERSION: 8.x
     DOTNET_ROOT: /usr/share/dotnet
-Error: Path does not exist: Bank/snyk.sarif
+Error: Path does not exist: bank/snyk.sarif
 
 
 Publish Documentation / deploy (push) Skipped
